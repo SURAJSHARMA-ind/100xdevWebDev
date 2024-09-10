@@ -3,6 +3,8 @@ const app = express();
 const port = 3000;
 let ridesCount = 0;
 
+
+
 // AgeValidator middleware
 const ageValidator = (req, res, next) => {
   const age = req.query.age;
@@ -26,10 +28,8 @@ const ridesCounter = (req, res, next) => {
   }
 };
 
-
-
 // Ride1
-app.get("/ride1",ageValidator,ridesCounter, (req, res) => {
+app.get("/ride1", ageValidator, ridesCounter, (req, res) => {
   res.json({
     message: "You can eligible to ride in ride1",
   });
