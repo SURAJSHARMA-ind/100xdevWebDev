@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      async function sum(params) {
+          const a = document.getElementById('fvalue').value
+          const b = document.getElementById('svalue').value
+        const body = {
+            a:a,
+            b:b
+        };
+        const req = await axios.post("http://localhost:3000/sum",body);
+      }
+    </script>
+    <div>
+      <label for="FirstValue">FirstValue</label>
+      <input id="fvalue" type="number" />
+      <label for="SecondValue">SecondValue</label>
+      <input id="svalue" type="number" />
+
+      <button onclick="sum()">Sum</button>
+    </div>
+  </body>
+</html>
