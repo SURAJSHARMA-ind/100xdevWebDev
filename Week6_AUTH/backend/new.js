@@ -22,7 +22,7 @@ app.post("/signup", (req, res) => {
   });
 
   if (alreadyExist) {
-    res.send({ message: "User Already Exist " });
+    res.status(409).send({ message: "User Already Exist " });
   } else {
     users.push({ username, password, token: null });
     res.send({
