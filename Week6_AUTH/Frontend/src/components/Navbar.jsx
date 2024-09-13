@@ -9,7 +9,7 @@ function Navbar() {
 
     return (
 
-        <div className='flex flex-wrap  w-full justify-center items-center bg-gradient-to-tl from-zinc-900 to-slate-900  border-0 border-b border-gray-800 text-white h-16 '>
+        <div className='flex flex-wrap h-16 sticky w-full justify-center items-center bg-gradient-to-tl from-zinc-900 to-slate-900  border-0 border-b border-gray-800 text-white  '>
             <div className='flex justify-between w-[74%] items-center'>
                 <Link to="/">
                 <div className='flex flex-row gap-2 cursor-pointer'>

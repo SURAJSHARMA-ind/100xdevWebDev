@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
-import {  useNavigate } from 'react-router-dom';
-function Signin() {
-    const navigate =useNavigate();
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../context/ProfileContext';
+
+function SignIn() {
+    const navigate = useNavigate();
 
     const [formData, SetFormData] = useState({
         username: '',
         password: ''
     })
 
-    const signup =()=>{
+    const {setUserDetail} = useContext(UserContext)
+    const signup = () => {
         navigate('/signup')
     }
     // const handleprofile = () => {
@@ -24,24 +27,42 @@ function Signin() {
 
     }
     const signinHandler = async (e) => {
-        e.preventDefault()
-        const response = await axios.post(`http://localhost:5000/signin`, formData, {
-            headers: {
-                Authorization: `${localStorage.getItem('token')}`
+        try {
+
+            e.preventDefault()
+            const response = await axios.post(`http://localhost:5000/signin`, formData, {
+                headers: {
+                    Authorization: `${localStorage.getItem('token')}`
+                }
+            });
+            const settoken = response.data.token
+            localStorage.setItem('token', settoken)
+            console.log(response);
+            console.log(response.data.username)
+            setUserDetail(response.data.username)
+            console.log('status code is ', response.status);
+            if (response.status === 200) {
+                toast.success('Login Successfully')
+                setTimeout(() => {
+                    navigate('/profile')
+                }, 1000);
             }
-        });
-        
-        const settoken = response.data.token
-        localStorage.setItem('token', settoken)
-        console.log(response);
-        console.log('status code is ',response.status);
-        
+        }
+        catch (error) {
+            if (error.response && error.response.status === 403) {
+                toast.error('Wrong username or password')
+            }
+            else {
+                toast.error('Something went wrong')
+            }
+        }
     }
 
     return (
 
-        <form onSubmit={signinHandler} action='' method='post' className=" h-screen bg-gradient-to-tl from-zinc-900 to-slate-900 w-full justify-center  flex flex-wrap items-center">
-            <div><Toaster/></div>
+        <form onSubmit={signinHandler} action='' method='post' className=" h-screen gap-4 justify-start bg-gradient-to-tl from-zinc-900 to-slate-900 w-full  flex-col flex flex-wrap items-center">
+            <div><Toaster /></div>
+            <h1 className='text-4xl text-white font-bold'>Signin</h1>                                     
             <div className=" border-indigo-500  border-2 justify-center p-4 bg-gradient-to-tl text-white from-zinc-800 to-slate-700 rounded-lg  flex flex-col  min-w-[30%] ">
                 <div className='mb-4'>
                     <h1 className="text-white text-center font-bold text-3xl ">Welcome to <span className='bg-gradient-to-r from-sky-600 to-indigo-600 text-transparent bg-clip-text'>100xDevs</span> </h1>
@@ -50,6 +71,8 @@ function Signin() {
                 <div className="relative mb-4">
                     <label for="UserName" className="leading-7 text-sm ">User Name</label>
                     <input
+                        minLength={6}
+                        maxLength={16}
                         required
                         onChange={changeHandler}
                         placeholder="Enter Username"
@@ -62,6 +85,7 @@ function Signin() {
                 <div className="relative mb-4">
                     <label for="password" className="leading-7 text-sm ">Password</label>
                     <input
+                        minLength={8}
                         required
                         onChange={changeHandler}
                         placeholder='Your Password'
@@ -80,4 +104,4 @@ function Signin() {
     )
 }
 
-export default Signin
+export default SignIn

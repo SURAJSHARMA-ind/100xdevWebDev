@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 function Home() {
     
     return (
-        <div className='h-screen w-full justify-center items-center bg-gradient-to-tl from-zinc-900 to-slate-900'>
+        <div className='h-screen w-full justify-start items-center bg-gradient-to-tl from-zinc-900 to-slate-900'>
             <div className='flex flex-wrap  flex-col justify-center  gap-2 item-center'>
                 <div className=' flex flex-row text-6xl gap-1 justify-center '>
                     <span className='font-bold text-center bg-gradient-to-r from-sky-600 to-indigo-600 text-transparent bg-clip-text '>100xDevs,</span> 

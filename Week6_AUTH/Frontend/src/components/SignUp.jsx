@@ -25,14 +25,13 @@ function SignUp() {
       if (response.status === 200) {
         toast.success('Account Created')
       }
+      setTimeout(() => {
+        navigate('/signin')
+      }, 3000)
     }
     catch (error) {
       if (error.response && error.response.status === 409) {
         toast.error('User Already Exists')
-       
-        setTimeout(() => {
-          navigate('/signin');
-        }, 2000)
 
       } else {
         toast.error('Something went wrong');
@@ -41,8 +40,11 @@ function SignUp() {
   }
   return (
 
-    <form onSubmit={signupHandler} action='' method='post' className=" h-screen bg-gradient-to-tl from-zinc-900 to-slate-900 w-full justify-center  flex flex-wrap items-center">
+    <form onSubmit={signupHandler} action='' method='post' className=" h-screen bg-gradient-to-tl gap-4 from-zinc-900 to-slate-900 w-full justify-start flex-col flex flex-wrap items-center">
       <div><Toaster /></div>
+      
+      <h1 className='text-4xl text-white font-bold'>Signup</h1>                                     
+
       <div className=" border-indigo-500  border-2 justify-center p-4 bg-gradient-to-tl text-white from-zinc-800 to-slate-700 rounded-lg  flex flex-col  min-w-[30%] ">
         <div className='mb-4'>
           <h1 className="text-white text-center font-bold text-3xl ">Welcome to <span className='bg-gradient-to-r from-sky-600 to-indigo-600 text-transparent bg-clip-text'>100xDevs</span> </h1>
@@ -51,6 +53,8 @@ function SignUp() {
         <div className="relative mb-4">
           <label for="UserName" className="leading-7 text-sm ">User Name</label>
           <input
+            minLength={6}
+            maxLength={16}
             required
             onChange={changeHandler}
             placeholder="Enter Username"
@@ -63,6 +67,7 @@ function SignUp() {
         <div className="relative mb-4">
           <label for="password" className="leading-7 text-sm ">Password</label>
           <input
+            minLength={8}
             required
             onChange={changeHandler}
             placeholder='Your Password'
