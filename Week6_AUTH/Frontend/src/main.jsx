@@ -8,16 +8,18 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Signin from './components/Signin.jsx';
+import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
 import Home from './components/Home.jsx';
+import Profile from './components/Profile.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='' element={<Home/>} />
       <Route path='/signup' element={<SignUp/>} />
-      <Route path='/signin' element={<Signin/>} />
+      <Route path='/signin' element={<SignIn/>} />
+      <Route path='/profile' element={<Profile/>}/>
     </Route>
   
   )
