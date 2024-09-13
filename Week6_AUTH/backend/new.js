@@ -13,6 +13,46 @@ const users = [];
 
 app.use(express.json());
 
+const loginValidator =(req,res,next)=>{
+  const token = req.headers[`authorization`];
+  if (!token) {
+    res.status(403).send({
+      message: "Token missing",
+    });
+  }
+
+  try {
+    const userDetail = jwt.verify(token, jwt_Secret);
+    const username = userDetail.username;
+
+    const user = users.find((user) => user.username === username);
+
+    if (user) {
+      res.send({
+        message: "Currenlty on profile",
+        username: user.username,
+      });
+    } else {
+      res.status(401).send({
+        message: "Unauthorized",
+      });
+    }
+  } catch {
+    res.status(401).send({
+      message: "Invalid token",
+    });
+  }
+
+  next()
+
+}
+
+app.post('/',loginValidator,(req,res)=>{
+  res.json({
+    message:'Already Login'
+  })
+})
+
 app.post("/signup", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -57,37 +97,6 @@ app.post("/signin", (req, res) => {
   } else {
     res.status(403).send({
       message: "Invalid username or Password",
-    });
-  }
-});
-
-app.post("/profile", (req, res) => {
-  const token = req.headers[`authorization`];
-  if (!token) {
-    res.status(403).send({
-      message: "Token missing",
-    });
-  }
-
-  try {
-    const userDetail = jwt.verify(token, jwt_Secret);
-    const username = userDetail.username;
-
-    const user = users.find((user) => user.username === username);
-
-    if (user) {
-      res.send({
-        message: "Currenlty on profile",
-        username: user.username,
-      });
-    } else {
-      res.status(401).send({
-        message: "Unauthorized",
-      });
-    }
-  } catch {
-    res.status(401).send({
-      message: "Invalid token",
     });
   }
 });
