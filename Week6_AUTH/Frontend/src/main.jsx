@@ -12,16 +12,23 @@ import SignIn from './components/SignIn.jsx';
 import SignUp from './components/SignUp.jsx';
 import Home from './components/Home.jsx';
 import Profile from './components/Profile.jsx';
+import PrivateRoute from './context/Auth/PrivateRoute.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route path='' element={<Home/>} />
-      <Route path='/signup' element={<SignUp/>} />
-      <Route path='/signin' element={<SignIn/>} />
-      <Route path='/profile' element={<Profile/>}/>
+      <Route path='' element={<Home />} />
+      <Route path='/signup' element={<SignUp />} />
+      <Route path='/signin' element={<SignIn />} />
+      <Route
+        path='/profile'
+        element={
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        } />
     </Route>
-  
+
   )
 )
 
@@ -31,6 +38,6 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </StrictMode>,
 )

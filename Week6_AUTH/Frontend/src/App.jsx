@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import { Outlet } from 'react-router-dom'
-import UserContextProvider from './context/UserContextProvider';
+import UserContextProvider from './context/userDetail/UserContextProvider'
+import AuthProvider from './context/Auth/AuthContextProvider';
 
 function App() {
 
@@ -19,14 +20,16 @@ function App() {
     signinHandler
   }
   useEffect(() => {
-
+tokenprovider()
   })
   return (
     <>
-      <UserContextProvider>
-        <Navbar />
-        <Outlet />
-      </UserContextProvider>
+      <AuthProvider>
+        <UserContextProvider>
+          <Navbar />
+          <Outlet />
+        </UserContextProvider>
+      </AuthProvider>
     </>
   )
 }
