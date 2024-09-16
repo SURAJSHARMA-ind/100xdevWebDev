@@ -7,8 +7,10 @@ const PrivateRoute = ({ Children }) => {
 
     if (!loginState) {
         return (<Navigate to='/signin' />)
+    }else{
+
+        return Children
     }
-    return Children
 }
 
 export default PrivateRoute

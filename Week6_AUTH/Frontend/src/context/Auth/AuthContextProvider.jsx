@@ -3,7 +3,7 @@ import AuthContext from "./AuthContext";
 
 
 const AuthProvider = ({ children }) => {
-    const [loginState, setLoginState] = useState(true)
+    const [loginState, setLoginState] = useState(false)
     const login = () => setLoginState(true);
     const logout = () => setLoginState(false);
     return (
