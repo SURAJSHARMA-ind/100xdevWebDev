@@ -23,15 +23,13 @@ const loginValidator =(req,res,next)=>{
 
   try {
     const userDetail = jwt.verify(token, jwt_Secret);
+    req.user = userDetail
     const username = userDetail.username;
 
     const user = users.find((user) => user.username === username);
 
     if (user) {
-      res.send({
-        message: "Currenlty on profile",
-        username: user.username,
-      });
+      next()
     } else {
       res.status(401).send({
         message: "Unauthorized",
@@ -42,9 +40,6 @@ const loginValidator =(req,res,next)=>{
       message: "Invalid token",
     });
   }
-
-  next()
-
 }
 
 app.post('/',loginValidator,(req,res)=>{
@@ -101,6 +96,14 @@ app.post("/signin", (req, res) => {
   }
 });
 
+app.get('/profile',loginValidator,(req,res)=>{
+if(loginValidator) {
+  res.send({
+    message:"Profile info",
+    userDetail:req.user.username
+  })
+}
+})
 app.listen(port, () => {
   console.log(`Server listening at port http://${host}:${port}`);
 });
