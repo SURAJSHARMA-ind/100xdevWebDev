@@ -13,7 +13,7 @@ const users = [];
 
 app.use(express.json());
 
-const loginValidator =(req,res,next)=>{
+const loginValidator = (req, res, next) => {
   const token = req.headers[`authorization`];
   if (!token) {
     res.status(403).send({
@@ -23,13 +23,13 @@ const loginValidator =(req,res,next)=>{
 
   try {
     const userDetail = jwt.verify(token, jwt_Secret);
-    req.user = userDetail
+    req.user = userDetail;
     const username = userDetail.username;
 
     const user = users.find((user) => user.username === username);
 
     if (user) {
-      next()
+      next();
     } else {
       res.status(401).send({
         message: "Unauthorized",
@@ -40,13 +40,15 @@ const loginValidator =(req,res,next)=>{
       message: "Invalid token",
     });
   }
-}
+};
 
-app.post('/',loginValidator,(req,res)=>{
-  res.json({
-    message:'Already Login'
-  })
-})
+app.post("/", loginValidator, (req, res) => {
+  if (loginValidator) {
+    res.json({
+      message: "Already Login",
+    });
+  }
+});
 
 app.post("/signup", (req, res) => {
   const username = req.body.username;
@@ -96,14 +98,14 @@ app.post("/signin", (req, res) => {
   }
 });
 
-app.get('/profile',loginValidator,(req,res)=>{
-if(loginValidator) {
-  res.send({
-    message:"Profile info",
-    userDetail:req.user.username
-  })
-}
-})
+app.get("/profile", loginValidator, (req, res) => {
+  if (loginValidator) {
+    res.send({
+      message: "Profile info",
+      userDetail: req.user.username,
+    });
+  }
+});
 app.listen(port, () => {
   console.log(`Server listening at port http://${host}:${port}`);
 });
