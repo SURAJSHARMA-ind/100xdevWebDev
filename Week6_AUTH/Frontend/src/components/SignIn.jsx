@@ -4,6 +4,7 @@ import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/userDetail/ProfileContext';
+import AuthContext from '../context/Auth/AuthContext';
 
 function SignIn() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function SignIn() {
     })
 
     const {setUserDetail} = useContext(UserContext)
+    const {login} = useContext(AuthContext)
     const signup = () => {
         navigate('/signup')
     }
@@ -47,6 +49,8 @@ function SignIn() {
                     navigate('/profile')
                 }, 1000);
             }
+            login()
+
         }
         catch (error) {
             if (error.response && error.response.status === 403) {
@@ -72,7 +76,7 @@ function SignIn() {
                     <label for="UserName" className="leading-7 text-sm ">User Name</label>
                     <input
                         minLength={6}
-                        maxLength={16}
+                        maxLength={30}
                         required
                         onChange={changeHandler}
                         placeholder="Enter Username"
@@ -86,6 +90,7 @@ function SignIn() {
                     <label for="password" className="leading-7 text-sm ">Password</label>
                     <input
                         minLength={8}
+                        maxLength={30}
                         required
                         onChange={changeHandler}
                         placeholder='Your Password'

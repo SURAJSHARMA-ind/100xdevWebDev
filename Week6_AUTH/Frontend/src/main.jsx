@@ -13,6 +13,9 @@ import SignUp from './components/SignUp.jsx';
 import Home from './components/Home.jsx';
 import Profile from './components/Profile.jsx';
 import PrivateRoute from './context/Auth/PrivateRoute.jsx';
+import UserContextProvider from './context/userDetail/UserContextProvider'
+import AuthProvider from './context/Auth/AuthContextProvider';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +29,7 @@ const router = createBrowserRouter(
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
+
         } />
     </Route>
 
@@ -38,6 +42,10 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <UserContextProvider>
+        <RouterProvider router={router} />
+      </UserContextProvider>
+    </AuthProvider>
   </StrictMode>,
 )

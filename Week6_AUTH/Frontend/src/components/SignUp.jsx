@@ -54,7 +54,7 @@ function SignUp() {
           <label for="UserName" className="leading-7 text-sm ">User Name</label>
           <input
             minLength={6}
-            maxLength={16}
+            maxLength={30}
             required
             onChange={changeHandler}
             placeholder="Enter Username"
@@ -68,6 +68,7 @@ function SignUp() {
           <label for="password" className="leading-7 text-sm ">Password</label>
           <input
             minLength={8}
+            maxLength={30}
             required
             onChange={changeHandler}
             placeholder='Your Password'
