@@ -1,43 +1,82 @@
 const express = require("express");
-const bcrypt = require('bcrypt')
 const app = express();
 const port = 5000;
-const mongoose = require("mongoose");
-const jwt = require('jsonwebtoken')
+const { UserModel, TodoModel } = require("./db");
 require("dotenv").config();
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
 const connectionString = process.env.MONGODB_URI;
-import { UserModel, TodoModel } from "./db";
+const JWT_SECRET = process.env.JWT_SECRET;
+
 mongoose.connect(connectionString);
+
 app.use(express.json());
 
-app.post("/signup", (req, res) => {
+const loginValidator = (req, res, next) => {
+  const token = req.headers["authorization"];
+  if (!token) {
+    res.send({
+      message: "Token is missing",
+    });
+  }
+  const userDetail = jwt.verify(token, JWT_SECRET);
+  req.user = userDetail;
+  console.log("UserDetail", userDetail);
+};
+
+app.post("/signup", async (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
 
-  const hashedPassword = bcrypt.hash(password,5){
-  
+  const hashedPassword = await bcrypt.hash(password, 5);
+  const userExists = UserModel.findOne({ email: email });
+  if (!userExists) {
+    await UserModel.create({
+      name: username,
+      email: email,
+      password: hashedPassword,
+    });
+  } else {
+    res.send({
+      message: "Email Already Exist",
+      status: 409,
+    });
   }
-  UserModel.create({
-    name: username,
-    email: email,
-    password: password,
-  });
 });
-app.post("/signin", async (req, res) => {
-  const email = req.body.username;
-  const password = req.body.password;
-  const response = await UserModel.findOne({
-    email:email,
-    password:password
-  });
-  if(response){
-    const token = jwt.sign({
-      
-    })
-  }
 
+app.post("/signin", loginValidator, async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  // const UserExist = userModel.findOne(
+  //   { email: email 
+  //     password :password
+  //   });
+
+  if (UserExist) {
+    const token = jwt.sign(
+      {
+        username: username,
+      },
+      jwt_Secret
+    );
+    UserExist.token = token;
+    console.log(users);
+    res.send({
+      message: "Login Successfully",
+      username: username,
+      token: token,
+    });
+  } else {
+    res.status(403).send({
+      message: "Invalid username or Password",
+    });
+  }
 });
+
 app.post("/Todos", (req, res) => {
   TodoModel.create({});
 });
