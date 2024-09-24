@@ -6,13 +6,13 @@ const User = new Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
-  token:String
 });
 
 const Todo = new Schema({
   userid: ObjectId,
   title: String,
-  name: String,
+  description: String,
+  status:Boolean,
 });
 
 const UserModel = mongoose.model("user", User);
