@@ -10,7 +10,7 @@ function App() {
   const { setLoginState } = useContext(AuthContext)
   const navigate = useNavigate()
   const tokenprovider = async () => {
-    const response = await axios.get(`http://localhost:5000/profile`, {
+    const response = await axios.get(`http://localhost:4000/profile`, {
       headers: {
         Authorization: `${localStorage.getItem('token')}`
       }

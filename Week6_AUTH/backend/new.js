@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const port = 5000;
+const port = 4000;
 const host = "localhost";
 const cors = require("cors");
 const app = express();
@@ -82,7 +82,8 @@ app.post("/signin", (req, res) => {
       {
         username: username,
       },
-      jwt_Secret
+      jwt_Secret,
+      {expiresIn:10}
     );
     UserExist.token = token;
     console.log(users);

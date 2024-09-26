@@ -5,7 +5,7 @@ function Profile() {
   const {userDetail} =useContext(UserContext)
   const token = localStorage.getItem('token')
   const apicall = async ()=>{
-    const response = await axios.get('http://localhost:5000/profile',{
+    const response = await axios.get('http://localhost:4000/profile',{
       headers:{
         Authorization :token
       }

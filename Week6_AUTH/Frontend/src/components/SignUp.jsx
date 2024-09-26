@@ -19,7 +19,7 @@ function SignUp() {
   const signupHandler = async (e) => {
     try {
       e.preventDefault()
-      const response = await axios.post(`http://localhost:5000/signup`, formData);
+      const response = await axios.post(`http://localhost:4000/signup`, formData);
       // const settoken = response.data.token
       // localStorage.setItem('token', settoken)
       if (response.status === 200) {
