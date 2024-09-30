@@ -1,7 +1,7 @@
 const express = require("express");
 const { z } = require("zod");
 const { TodoModel } = require("../db/db");
-const loginValidator = require("../middlewares/loginValidator");
+const loginValidator = require("../middleware/loginValidator");
 const router = express.Router();
 
 // Add TODO
@@ -21,7 +21,9 @@ router.post("/todo", loginValidator, async (req, res) => {
     }
 
     const { title, description, status } = parsedTodo.data;
+    const userid = req.userid
     await TodoModel.create({
+      userid : userid,
       title,
       description,
       status,
@@ -38,8 +40,11 @@ router.post("/todo", loginValidator, async (req, res) => {
 
 // Get Todos
 router.get("/todos", loginValidator, async (req, res) => {
+  console.log("todo userid",req.userid);
+  const userid= req.userid
+  
   try {
-    const todos = await TodoModel.find({});
+    const todos = await TodoModel.find({ userid: userid});
     return res.send(todos);
   } catch (error) {
     return res.status(500).send({
@@ -47,5 +52,6 @@ router.get("/todos", loginValidator, async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
