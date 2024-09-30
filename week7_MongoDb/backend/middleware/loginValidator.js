@@ -13,10 +13,11 @@ const loginValidator = async (req, res, next) => {
   }
   try {
     const userDetail = jwt.verify(token, JWT_SECRET);
-    req.user = userDetail;
-    const email = userDetail.email;
-
-    const userExists = await UserModel.findOne({ email: email });
+    req.userid = userDetail.id
+    const userid = userDetail.id;
+    console.log("userid is ",userid);
+    
+    const userExists = await UserModel.findOne({ _id: userid });
     if (!userExists) {
       return res.status(404).send({
         message: "Invalid Token",
