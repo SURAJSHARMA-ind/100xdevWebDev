@@ -70,10 +70,10 @@ router.post("/signin", async (req, res) => {
 
     const token = jwt.sign(
       {
-        id: user.userid,
+        id: user._id,
       },
       JWT_SECRET,
-      { expiresIn: 60 }
+      { expiresIn: "10d" }
     );
 
     res.send({
