@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
+const ObjectId = Schema.Types.ObjectId;
 
 const User = new Schema({
   name: String,
@@ -9,7 +9,7 @@ const User = new Schema({
 });
 
 const Todo = new Schema({
-  userid: { type: ObjectId, ref: User },
+  userid: { type: ObjectId, ref: "user" },
   title: String,
   description: String,
   status: Boolean,
