@@ -14,8 +14,13 @@ mongoose.connect(connectionString);
 app.use(express.json());
 
 app.use("/auth", authRoutes); // Routes for authentication
-app.use("/api", todoRoutes);  // Routes for todos
-
+app.use("/api", todoRoutes); // Routes for todos
+app.use((err, req, res, next) => {
+  console.error( err);
+  res.status(err.status || 500).json({
+    message: err.message,
+  });
+});
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
