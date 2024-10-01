@@ -21,9 +21,9 @@ router.post("/todo", loginValidator, async (req, res) => {
     }
 
     const { title, description, status } = parsedTodo.data;
-    const userid = req.userid
+    const userid = req.userid;
     await TodoModel.create({
-      userid : userid,
+      userid: userid,
       title,
       description,
       status,
@@ -40,11 +40,11 @@ router.post("/todo", loginValidator, async (req, res) => {
 
 // Get Todos
 router.get("/todos", loginValidator, async (req, res) => {
-  console.log("todo userid",req.userid);
-  const userid= req.userid
-  
+  console.log("todo userid", req.userid);
+  const userid = req.userid;
+
   try {
-    const todos = await TodoModel.find({ userid: userid});
+    const todos = await TodoModel.find({ userid: userid });
     return res.send(todos);
   } catch (error) {
     return res.status(500).send({
@@ -52,6 +52,49 @@ router.get("/todos", loginValidator, async (req, res) => {
     });
   }
 });
+// update Todo
 
+router.put("/update/:id", loginValidator,async (req, res) => {
+  const todoid = req.params.id;
+  const userid = req.userid;
+
+  const updateData = z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    status: z.boolean().optional(),
+  });
+
+  const updatedtodo = updateData.safeParse(req.body);
+
+  if (!updatedtodo.success) {
+    return res.status(409).json({
+      message: "Incorrect Format",
+    });
+  }
+  try {
+    const { title, description, status } = updatedtodo.data;
+
+    const updatedTodo = await TodoModel.findOneAndUpdate(
+      { _id: todoid, userid: userid },
+      { title, description, status },
+      { new: true } //return updated document
+    );
+
+    if (!updatedTodo) {
+      return res.status(409).json({
+        message: "Todo not found ",
+      });
+    }
+
+    return res.status(200).json({
+      message : 'Todo Updated Succesfully',
+      todo : updatedtodo
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message : `Error : ${error}`
+    })
+  }
+});
 
 module.exports = router;
