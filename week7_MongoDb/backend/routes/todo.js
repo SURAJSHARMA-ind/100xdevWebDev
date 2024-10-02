@@ -52,9 +52,9 @@ router.get("/todos", loginValidator, async (req, res) => {
     });
   }
 });
-// update Todo
+// Update Todo
 
-router.put("/update/:id", loginValidator,async (req, res) => {
+router.put("/update/:id", loginValidator, async (req, res) => {
   const todoid = req.params.id;
   const userid = req.userid;
 
@@ -87,14 +87,60 @@ router.put("/update/:id", loginValidator,async (req, res) => {
     }
 
     return res.status(200).json({
-      message : 'Todo Updated Succesfully',
-      todo : updatedtodo
+      message: "Todo Updated Succesfully",
+      todo: updatedtodo,
     });
   } catch (error) {
     return res.status(500).json({
-      message : `Error : ${error}`
-    })
+      message: `Error : ${error}`,
+    });
   }
 });
+// Delete Todo
+router.delete("/delete/:id", loginValidator, async (req, res) => {
+  const todoid = req.params.id;
+  const userid = req.userid;
+
+  const todo = TodoModel.findOne({ _id: todoid, userid: userid });
+
+  if (!todo) {
+    return res.status(409).json({
+      message: "Todo not present",
+    });
+  }
+try{
+  await TodoModel.deleteOne({_id:todoid});
+
+  return res.status(200).json({
+    message :"Todo deleted successfully"
+  })
+
+}
+catch(error){
+  return res.status(500).json({
+    message:`Error : ${error}`
+  })
+}
+});
+// Clear All
+router.delete("/deleteall",loginValidator, async (req,res)=>{
+  try{
+  const userid = req.userid
+
+  const result = await TodoModel.deleteMany({userid:userid})
+   if(result.deletedCount===0){
+    return res.status(400).json({
+      message:"Todos not found"
+    })
+   }
+
+   res.status(200).json({message:"Todo deleted successfully"})
+
+  }catch(error){
+    return res.status(500).json({
+      message:`Error : ${error}`
+    })
+  }
+})
 
 module.exports = router;
