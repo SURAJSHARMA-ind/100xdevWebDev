@@ -1,9 +1,16 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const rateLimit = require('express-rate-limit');
 let ridesCount = 0;
 
-
+const limiter = rateLimit({
+	windowMs: 1 * 60 * 1000, // 2 minutes
+	limit: 2, // Limit each IP to 10 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+	
+})
 
 // AgeValidator middleware
 const ageValidator = (req, res, next) => {
@@ -35,9 +42,9 @@ app.get("/ride1", ageValidator, ridesCounter, (req, res) => {
   });
 });
 
-app.use(ageValidator);
+// app.use(ageValidator);
 // Ride2
-app.get("/ride2", (req, res) => {
+app.get("/ride2",limiter, (req, res) => {
   res.json({
     message: "You are eligible to ride in ride2",
   });
