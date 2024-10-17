@@ -19,7 +19,6 @@ app.get("/", (req, res, next) => {
   });
 
 
-
 app.listen(3000,()=>{
     console.log('server listening at http://localhost:3000')
 })
