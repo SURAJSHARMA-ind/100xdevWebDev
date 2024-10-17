@@ -7,6 +7,7 @@
   - **Error Handling Middleware**: Implemented middleware to catch and handle errors when requests fail, ensuring a smoother user experience.
   - **Age Validator**: Added a validation check to ensure users are 18 years or older before granting access to specific routes.
   - **Ride Counter**: Established a limitation of 2 rides per user, restricting access once the limit is reached to enhance resource management.
+  - **RateLimit**: Add express-ratelimit package .
 
 </details>
 
