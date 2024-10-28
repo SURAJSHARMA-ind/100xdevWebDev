@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const rateLimit = require('express-rate-limit');
 let ridesCount = 0;
 const rateLimit = require('express-rate-limit')
 
