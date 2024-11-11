@@ -1,4 +1,4 @@
 node_modules/
 assignments/
 .env
-./outDir
+/week14_TypeScript/outDir/
