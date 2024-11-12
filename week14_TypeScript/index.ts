@@ -71,38 +71,45 @@ interface Employee {
     name:  string,
     phoneNo:  string,
     age :number,
-    adress: {
-        houseNo : string,
-        streetNo : number,
-        city : string
-    } ,
-    employeeType : string
+    address: Address,
+    employeeType : string,
+    pincode? :number // optional field 
+}
+interface Address { 
+    houseNo : string,
+    streetNo : number,
+    city : string
 }
 
+interface Office {
+    No_of_Employees :number,
+    address:Address,
+}
 const employee = {
     name: 'Suraj',
     phoneNo: "9973909794",
     age :21,
-    adress: {
+    address: {
         houseNo : "A-2891",
         streetNo : 3,
-        city : "string"
+        city : "delhi"
     },
-    employeeType :"SDE"
+    employeeType :"SDE",
+    pincode  : 11092 
 }
 const employee1 :Employee = {
     name: 'Suraj',
     phoneNo: "9973909794",
     age :21,
-    adress: {
+    address: {
         houseNo : "A-2891",
         streetNo : 3,
-        city : "string"
+        city : "delhi"
     },
     employeeType :"SWE"
 }
 
-function findSde(value :Employee):Boolean{
+function findSde(employee :Employee):boolean{
 // problem here ?
 if(employee.employeeType==="SDE"){
     return  true
@@ -113,3 +120,15 @@ else{
 }
 
 console.log('Sde found',findSde(employee1))
+
+// Types.............................................................
+
+// Very similar to interfaces , types let you aggregate data together.
+
+type Owner ={
+name : string,
+age : string ,
+address : Address
+}
+
+// But they let you do a few other things.
