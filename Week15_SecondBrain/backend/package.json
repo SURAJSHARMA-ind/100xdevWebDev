@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "tsc -b ",
+    "build": "node ./dist/index.js",
+    "dev":"npm run && npm build "
+    
   },
   "keywords": [],
   "author": "",
