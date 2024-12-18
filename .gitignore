@@ -2,3 +2,4 @@ node_modules/
 assignments/
 .env
 /week14_TypeScript/outDir/
+dist/
