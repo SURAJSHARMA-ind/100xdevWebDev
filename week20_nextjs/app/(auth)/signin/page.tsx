@@ -1,8 +1,8 @@
-import { Signin as SigninComponent } from "@/components/Signin";
+import Signin from "@/components/Signin"
 
-export default function Signin() {
+export default function signin() {
     return (
         <div >
-            <Signin/>
+           <Signin/>
         </div>)
 }

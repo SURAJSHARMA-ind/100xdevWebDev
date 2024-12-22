@@ -1,11 +1,12 @@
 import Header from "@/components/Header"
+import Footer from "@/components/Footer"
 
 function page({ children }) {
     return (
         <div>
             <Header />
             {children}
-            <h1>Footer</h1>
+            <Footer />
         </div>
     )
 }
