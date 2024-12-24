@@ -1,16 +1,17 @@
 
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { pages } from "next/dist/build/templates/app-page";
 
 console.log(process.env.NEXTAUTH_SECRET);
 const handler = NextAuth({
     providers: [
         CredentialsProvider({
-            name: "Email",
+            name: "Username",
             credentials: {
-              username: { label: "Username", type: "text", placeholder: "suraj" },
-              password: { label: "Password", type: "password" }
+              username: { label: "Username", type: "text", placeholder: "Enter Your Name" },
+              password: { label: "Password", type: "password",placeholder: "Enter Your Password" }
             },
             async authorize(credentials, req) {
               
@@ -21,9 +22,13 @@ const handler = NextAuth({
                 }
             },
           }),
-          // pages:{
-          //   signIn :"/auth/signin",
-          // },
+          GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+          })
+        //   pages:{
+        //     signIn :"/auth/signin",
+        //   },     
     ],
     secret: process.env.NEXTAUTH_SECRET
 });
