@@ -1,11 +1,19 @@
-import { useState } from 'react'
+import {useEffect} from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  useEffect(()=>{
+    const  webSocket = new WebSocket('http://localhost:8080');
+    webSocket.onmessage()
+    setInterval(()=>{
+      
+    },2000)
+  },[])
 
   return (
    <>
-   
+   <input type="text" />
+   <button>Send</button>
    </>
   )
 }
